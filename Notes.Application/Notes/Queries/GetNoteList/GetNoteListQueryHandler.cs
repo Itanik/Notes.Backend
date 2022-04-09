@@ -13,9 +13,9 @@ namespace Notes.Application.Notes.Queries.GetNoteList
         : IRequestHandler<GetNoteListQuery, NoteListVm>
     {
         private readonly INotesDbContext _dbContext;
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
 
-        public GetNoteListQueryHandler(INotesDbContext dbContext, Mapper mapper) =>
+        public GetNoteListQueryHandler(INotesDbContext dbContext, IMapper mapper) =>
             (_dbContext, _mapper) = (dbContext, mapper);
 
         public async Task<NoteListVm> Handle(GetNoteListQuery request, CancellationToken cancellationToken)
