@@ -1,19 +1,31 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Notes.Persistence;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Notes.WebApi
 {
+    // точка входа в приложение
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            // регистрация инжектора зависимостей
+            using (var scope = host.Services.CreateScope())
+            {
+                var serverProvider = scope.ServiceProvider;
+                try
+                {
+                    var context = serverProvider.GetRequiredService<NotesDbContext>();// почему конкретная реализация?
+                    DbInitializer.Initialize(context);
+                }
+                catch (Exception) { }
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
