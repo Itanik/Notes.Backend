@@ -31,6 +31,7 @@ namespace Notes.WebApi
             });
             services.AddApplication(); //внедрение зависимостей на уровне core (application)
             services.AddPersistence(Configuration); //внедрение зависимостей на уровне infrastucture (persistence)
+            services.AddControllers();
 
             services.AddCors(options =>
             {
