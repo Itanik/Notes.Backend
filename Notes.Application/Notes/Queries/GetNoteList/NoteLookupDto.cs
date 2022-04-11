@@ -1,11 +1,11 @@
 ﻿using System;
 using AutoMapper;
-using MediatR;
+using Notes.Application.Common.Mapping;
 using Notes.Domain;
 
 namespace Notes.Application.Notes.Queries.GetNoteList
 {
-    public class NoteLookupDto
+    public class NoteLookupDto : IMapWith<Note>
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
