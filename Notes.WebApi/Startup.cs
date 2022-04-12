@@ -8,6 +8,7 @@ using Notes.Application;
 using Notes.Application.Common.Mapping;
 using Notes.Application.Interfaces;
 using Notes.Persistence;
+using Notes.WebApi.Middleware;
 using System.Reflection;
 
 namespace Notes.WebApi
@@ -53,6 +54,8 @@ namespace Notes.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            // обязательно в начале пайплайна, т.к. исключения должны быть обработаны до всего остального
+            app.UseCustomExceptionHandler();
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseCors("AllowAll"); // имя ранее созданной политики
