@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Notes.Domain;
 using System.Threading;
 using System.Threading.Tasks;

@@ -6,20 +6,20 @@ using System;
 
 namespace Notes.WebApi
 {
-    // точка входа в приложение
+    // С‚РѕС‡РєР° РІС…РѕРґР° РІ РїСЂРёР»РѕР¶РµРЅРёРµ
     public class Program
     {
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
-            // регистрация инжектора зависимостей
+            // СЂРµРіРёСЃС‚СЂР°С†РёСЏ РёРЅР¶РµРєС‚РѕСЂР° Р·Р°РІРёСЃРёРјРѕСЃС‚РµР№
             using (var scope = host.Services.CreateScope())
             {
                 var serverProvider = scope.ServiceProvider;
                 try
                 {
-                    var context = serverProvider.GetRequiredService<NotesDbContext>();// почему конкретная реализация?
+                    var context = serverProvider.GetRequiredService<NotesDbContext>();// РїРѕС‡РµРјСѓ РєРѕРЅРєСЂРµС‚РЅР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ?
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception) { }

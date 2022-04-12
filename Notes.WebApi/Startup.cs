@@ -13,7 +13,7 @@ using System.Reflection;
 
 namespace Notes.WebApi
 {
-    // êîíôèãóðàöèÿ ïðèëîæåíèÿ
+    // ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ñ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -24,19 +24,19 @@ namespace Notes.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // êàêàÿ òî ìàãèÿ ñ ðåôëåêñèåé
+            // ÐºÐ°ÐºÐ°Ñ Ñ‚Ð¾ Ð¼Ð°Ð³Ð¸Ñ Ñ Ñ€ÐµÑ„Ð»ÐµÐºÑÐ¸ÐµÐ¹
             services.AddAutoMapper(config =>
             {
                 config.AddProfile(new AsseblyMappingProfile(Assembly.GetExecutingAssembly()));
                 config.AddProfile(new AsseblyMappingProfile(typeof(INotesDbContext).Assembly));
             });
-            services.AddApplication(); //âíåäðåíèå çàâèñèìîñòåé íà óðîâíå core (application)
-            services.AddPersistence(Configuration); //âíåäðåíèå çàâèñèìîñòåé íà óðîâíå infrastucture (persistence)
+            services.AddApplication(); // Ð²Ð½ÐµÐ´Ñ€ÐµÐ½Ð¸Ðµ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚ÐµÐ¹ Ð½Ð° ÑƒÑ€Ð¾Ð²Ð½Ðµ core (application)
+            services.AddPersistence(Configuration); // Ð²Ð½ÐµÐ´Ñ€ÐµÐ½Ð¸Ðµ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚ÐµÐ¹ Ð½Ð° ÑƒÑ€Ð¾Ð²Ð½Ðµ infrastucture (persistence)
             services.AddControllers();
 
             services.AddCors(options =>
             {
-                // WARNING! äàííûå cors ïîëèòèêè íóæíî ðåñòðèêòèòü äëÿ áåçîïàñíîñòè
+                // WARNING! Ð´Ð°Ð½Ð½Ñ‹Ðµ cors Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸ Ð½ÑƒÐ¶Ð½Ð¾ Ñ€ÐµÑÑ‚Ñ€Ð¸ÐºÑ‚Ð¸Ñ‚ÑŒ Ð´Ð»Ñ Ð±ÐµÐ·Ð¾Ð¿Ð°ÑÐ½Ð¾ÑÑ‚Ð¸
                 options.AddPolicy("AllowAll", policy =>
                 {
                     policy.AllowAnyHeader();
@@ -54,15 +54,15 @@ namespace Notes.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
-            // îáÿçàòåëüíî â íà÷àëå ïàéïëàéíà, ò.ê. èñêëþ÷åíèÿ äîëæíû áûòü îáðàáîòàíû äî âñåãî îñòàëüíîãî
+            // Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð² Ð½Ð°Ñ‡Ð°Ð»Ðµ Ð¿Ð°Ð¹Ð¿Ð»Ð°Ð¹Ð½Ð°, Ñ‚.Ðº. Ð¸ÑÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ Ð±Ñ‹Ñ‚ÑŒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ñ‹ Ð´Ð¾ Ð²ÑÐµÐ³Ð¾ Ð¾ÑÑ‚Ð°Ð»ÑŒÐ½Ð¾Ð³Ð¾
             app.UseCustomExceptionHandler();
             app.UseRouting();
             app.UseHttpsRedirection();
-            app.UseCors("AllowAll"); // èìÿ ðàíåå ñîçäàííîé ïîëèòèêè
+            app.UseCors("AllowAll"); // Ð¸Ð¼Ñ Ñ€Ð°Ð½ÐµÐµ ÑÐ¾Ð·Ð´Ð°Ð½Ð½Ð¾Ð¹ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸
 
             app.UseEndpoints(endpoints =>
             {
-                //èñïîëüçîâàíèå êîíòðîëëåðîâ â êà÷åñòâå îáðàáîò÷èêîâ çàïðîñîâ
+                // Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð¾Ð² Ð² ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ðµ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¾Ð² Ð·Ð°Ð¿Ñ€Ð¾ÑÐ¾Ð²
                 endpoints.MapControllers();
 
                 //endpoints.MapGet("/", async context =>
