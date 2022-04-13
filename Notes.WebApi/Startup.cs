@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,6 +45,17 @@ namespace Notes.WebApi
                     policy.AllowAnyOrigin();
                 });
             });
+            services.AddAuthentication(config =>
+            {
+                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:5001/";// адрес сервера идентификации
+                    options.Audience = "NotesWebApi"; // область доступа, зарегестрированная на сервере идентификации
+                    options.RequireHttpsMetadata = false; // TODO: удалить на финальной сборке
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +71,8 @@ namespace Notes.WebApi
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseCors("AllowAll"); // имя ранее созданной политики
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
