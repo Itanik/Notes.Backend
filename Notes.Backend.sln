@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Test", "Notes.Test\Notes.Test.csproj", "{C3A22D24-A5A5-4F6D-9605-3B8F1C1B8738}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Tests", "Notes.Test\Notes.Tests.csproj", "{C3A22D24-A5A5-4F6D-9605-3B8F1C1B8738}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E4E1EB74-730A-471D-89A9-CFE60E1F40F7} = {E4E1EB74-730A-471D-89A9-CFE60E1F40F7}
 	EndProjectSection
