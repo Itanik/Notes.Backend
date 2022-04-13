@@ -56,6 +56,7 @@ namespace Notes.WebApi
                     options.Audience = "NotesWebApi"; // область доступа, зарегестрированная на сервере идентификации
                     options.RequireHttpsMetadata = false; // TODO: удалить на финальной сборке
                 });
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +67,12 @@ namespace Notes.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.RoutePrefix = string.Empty; // показ swagger ui по адресу хоста
+                config.SwaggerEndpoint("swagger/v1/swagger.json", "Notes API");
+            });
             // обязательно в начале пайплайна, т.к. исключения должны быть обработаны до всего остального
             app.UseCustomExceptionHandler();
             app.UseRouting();
