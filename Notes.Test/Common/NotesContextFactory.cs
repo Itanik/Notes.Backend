@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Notes.Domain;
 using Notes.Persistence;
 
-namespace Notes.Test.Common
+namespace Notes.Tests.Common
 {
     public class NotesContextFactory
     {

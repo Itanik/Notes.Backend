@@ -2,10 +2,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Notes.Application.Notes.Commands.CreateNote;
-using Notes.Test.Common;
+using Notes.Tests.Common;
 using Xunit;
 
-namespace Notes.Test.Notes.Commands
+namespace Notes.Tests.Notes.Commands
 {
     public class CreateNoteCommandHandlerTests : TestCommandBase
     {
