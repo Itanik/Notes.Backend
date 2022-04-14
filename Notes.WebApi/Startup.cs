@@ -2,14 +2,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Notes.Application;
 using Notes.Application.Common.Mapping;
 using Notes.Application.Interfaces;
 using Notes.Persistence;
 using Notes.WebApi.Middleware;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Reflection;
@@ -58,16 +61,17 @@ namespace Notes.WebApi
                     options.Audience = "NotesWebApi"; // область доступа, зарегестрированная на сервере идентификации
                     options.RequireHttpsMetadata = false; // TODO: удалить на финальной сборке
                 });
-            services.AddSwaggerGen(config =>
-            {
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                config.IncludeXmlComments(xmlPath);
-            });
+            services.AddVersionedApiExplorer(options =>
+                options.GroupNameFormat = "'v'VVV");
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>,
+                    ConfigureSwaggerOptions>();
+            services.AddSwaggerGen();
+            services.AddApiVersioning();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -77,8 +81,13 @@ namespace Notes.WebApi
             app.UseSwagger();
             app.UseSwaggerUI(config =>
             {
-                config.RoutePrefix = string.Empty; // показ swagger ui по адресу хоста
-                config.SwaggerEndpoint("swagger/v1/swagger.json", "Notes API");
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    config.SwaggerEndpoint(
+                        $"/swagger/{description.GroupName}/swagger.json",
+                        description.GroupName.ToUpperInvariant());
+                    config.RoutePrefix = string.Empty;
+                }
             });
             // обязательно в начале пайплайна, т.к. исключения должны быть обработаны до всего остального
             app.UseCustomExceptionHandler();
@@ -87,7 +96,7 @@ namespace Notes.WebApi
             app.UseCors("AllowAll"); // имя ранее созданной политики
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseApiVersioning();
             app.UseEndpoints(endpoints =>
             {
                 // использование контроллеров в качестве обработчиков запросов
