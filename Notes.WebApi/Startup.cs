@@ -42,7 +42,7 @@ namespace Notes.WebApi
 
             services.AddCors(options =>
             {
-                // WARNING! данные cors политики нужно рестриктить для безопасности
+                // TODO: данные cors политики нужно зарестриктить для безопасности
                 options.AddPolicy("AllowAll", policy =>
                 {
                     policy.AllowAnyHeader();
@@ -78,6 +78,8 @@ namespace Notes.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            // обязательно в начале пайплайна, т.к. исключения должны быть обработаны до всего остального
+            app.UseCustomExceptionHandler();
             app.UseSwagger();
             app.UseSwaggerUI(config =>
             {
@@ -89,24 +91,13 @@ namespace Notes.WebApi
                     config.RoutePrefix = string.Empty;
                 }
             });
-            // обязательно в начале пайплайна, т.к. исключения должны быть обработаны до всего остального
-            app.UseCustomExceptionHandler();
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseCors("AllowAll"); // имя ранее созданной политики
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseApiVersioning();
-            app.UseEndpoints(endpoints =>
-            {
-                // использование контроллеров в качестве обработчиков запросов
-                endpoints.MapControllers();
-
-                //endpoints.MapGet("/", async context =>
-                //{
-                //    await context.Response.WriteAsync("Hello World!");
-                //});
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }
