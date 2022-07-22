@@ -14,7 +14,7 @@ namespace Notes.WebApi
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .WriteTo.File("NotesWebAppLog-.txt", rollingInterval:
+                .WriteTo.File("logs/NotesWebAppLog-.log", rollingInterval:
                     RollingInterval.Day)
                 .CreateLogger();
 
